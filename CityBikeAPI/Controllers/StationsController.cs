@@ -28,5 +28,32 @@ namespace CityBikeAPI.Controllers
                 return BadRequest("Something went wrong: " + e.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        public ActionResult GetSingleStation(int id) 
+        {
+
+            try
+            {
+                Station station = _db.Stations.Find(id);
+
+                if (station != null)
+                {
+                    return Ok(station);
+                }
+                else
+                {
+                    return NotFound($"Station with id: {id}, did not found.");
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Something went wrong: " + e.Message);
+            }
+
+
+
+            //return Ok(new Station { Id = id });
+        }
     }
 }
