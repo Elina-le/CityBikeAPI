@@ -22,7 +22,7 @@ namespace CityBikeAPI.Controllers
         {
             try
             {
-                List<Station> stations = _db.Stations.ToList();
+                var stations = from s in _db.Stations.OrderBy(o => o.Name) select s;
                 return Ok(stations);
             }
             catch (Exception e)
