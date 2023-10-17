@@ -33,8 +33,8 @@ public partial class Journey
         get
         {
             double? kilometers = this.CoveredDistanceM / 1000;
-            double? roundedKm = Math.Round((double)kilometers, 2);
-            string? result = roundedKm.ToString();
+            double? roundedKm = Math.Round((double)kilometers.GetValueOrDefault(), 2);
+            string result = roundedKm.GetValueOrDefault().ToString();
             return result;
         }
     }
