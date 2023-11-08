@@ -20,6 +20,8 @@ builder.Services.AddCors(options =>
     options.AddPolicy("MyCorsPolicy",
     builder => builder.AllowAnyOrigin()
     .AllowAnyMethod()
+    .WithExposedHeaders("X-Total-Count")
+    .WithExposedHeaders("X-Total-Pages")
     .AllowAnyHeader());
 });
 
