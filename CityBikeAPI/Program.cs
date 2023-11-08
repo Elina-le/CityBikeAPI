@@ -1,4 +1,5 @@
 using CityBikeAPI.Models;
+using CityBikeAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<CityBikeDbContext>(
         options => options.UseSqlServer(
             builder.Configuration.GetConnectionString("CityBikeDbConnection")
             ));
+
+builder.Services.AddScoped<JourneyService>();
 
 builder.Services.AddCors(options =>
 {
