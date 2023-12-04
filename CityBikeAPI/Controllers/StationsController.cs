@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 namespace CityBikeAPI.Controllers
 {
     [Route("api/[controller]")]
-    //[Route("[controller]/[action]")]
     [ApiController]
     public class StationsController : ControllerBase
     {
@@ -18,7 +17,7 @@ namespace CityBikeAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAllSations()
+        public ActionResult GetAllStations()
         {
             try
             {
@@ -30,29 +29,6 @@ namespace CityBikeAPI.Controllers
                 return BadRequest("Something went wrong: " + e.Message);
             }
         }
-
-        //[HttpGet("{id}")]
-        //public ActionResult GetSingleStation(int id)
-        //{
-        //    try
-        //    {
-        //        //Station station = _db.Stations.Find(id);
-
-        //        if (station != null)
-        //        {
-        //            return Ok(station);
-        //        }
-        //        else
-        //        {
-        //            return NotFound($"Station with id: {id}, did not found.");
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest("Something went wrong: " + e.Message);
-        //    }
-        //}
-
 
         [HttpGet("{id}")]
         public ActionResult GetStationCalculations(int id)
