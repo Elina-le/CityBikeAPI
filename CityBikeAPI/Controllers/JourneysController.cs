@@ -20,7 +20,7 @@ namespace CityBikeAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPaginatedJourneys(int page = 0, int pageSize = 100)
+        public IActionResult GetPaginatedJourneys(int page = 0, int pageSize = 15)
         {
             try
             {
