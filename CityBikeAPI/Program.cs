@@ -1,3 +1,5 @@
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using CityBikeAPI.Models;
 using CityBikeAPI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +13,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<CityBikeDbContext>(
-        options => options.UseSqlServer(
-            builder.Configuration.GetConnectionString("CityBikeDbConnection")
-            ));
+var keyVaultEndpoint = new Uri(builder.Configuration["AzureKeyVaultURI"]);
+var secretClient = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
+
+KeyVaultSecret kvs = secretClient.GetSecret("CityBikeConnectionStringAzure");
+builder.Services.AddDbContext<CityBikeDbContext>(options => options.UseSqlServer(kvs.Value));
+
 
 builder.Services.AddScoped<JourneyService>();
 
