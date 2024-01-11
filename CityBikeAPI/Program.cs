@@ -13,12 +13,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var keyVaultEndpoint = new Uri(builder.Configuration["AzureKeyVaultURI"]);
-var secretClient = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
+var connection = String.Empty;
 
-KeyVaultSecret kvs = secretClient.GetSecret("CityBikeConnectionStringAzure");
-builder.Services.AddDbContext<CityBikeDbContext>(options => options.UseSqlServer(kvs.Value));
+if (builder.Environment.IsDevelopment())
+{
+    connection = builder.Configuration.GetConnectionString("CityBikeDbConnection");
+}
+else
+{
+    string? keyVaultUri = builder.Configuration["AzureKeyVaultURI"];
+    
+    if (keyVaultUri != null)
+    {
+        var keyVaultEndpoint = new Uri(keyVaultUri);
+        var secretClient = new SecretClient(keyVaultEndpoint, new DefaultAzureCredential());
+        KeyVaultSecret kvs = secretClient.GetSecret("CityBikeConnectionStringAzure");
+        connection = kvs.Value;
+    }
+}
 
+builder.Services.AddDbContext<CityBikeDbContext>(options => options.UseSqlServer(connection));
 
 builder.Services.AddScoped<JourneyService>();
 
